@@ -1,26 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_app/models/task_data.dart';
 import 'package:todoey_app/screens/add_task_screen.dart';
 import 'package:todoey_app/widgets/tasks_list.dart';
 
 
 class TasksScreen extends StatelessWidget {
-  const TasksScreen({super.key});
-
-  Widget buildButtomSheet(BuildContext context){
-    return AddTaskScreen(
-    );
-  }
-  //or i can make it arrow function or anonymous function
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightBlue,
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          showModalBottomSheet(context: context, builder: buildButtomSheet);
+          showModalBottomSheet(context: context, builder: (context)=>
+              AddTaskScreen(),
+          );
         },
         backgroundColor: Colors.lightBlue,
         shape: const CircleBorder(),
@@ -31,33 +25,40 @@ class TasksScreen extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 60.0, left:30.0,right: 30.0,bottom: 30.0),
-            child: const Column(
+            child:  Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 CircleAvatar(
+                 const CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 30.0,
                     child: Icon(Icons.list,size:30.0,color: Colors.lightBlue,),
                 ),
-                 SizedBox(
+                 const SizedBox(
                   height: 10.0,
                 ),
-                 Text('Todoey',
+                 const Text('Todoey',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 50.0,
                   fontWeight: FontWeight.w700
                 ),),
                  Text(
-                  '12 Tasks',
-                  style: TextStyle(
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
                   ),
                 ),
-
+                const SizedBox(
+                  height: 10.0,
+                ),
+                const Text("Add Your To Do List",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,))
               ],
-            ),
+            )
+            ,
           ),
           Expanded(
             child: Container(

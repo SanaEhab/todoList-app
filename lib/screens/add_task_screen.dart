@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_app/models/task_data.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
+  @override
+  _AddTaskScreenState createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  String? newTaskTitle;
 
   @override
   Widget build(BuildContext context) {
-
-    late String newTaskTitle;
-
     return Container(
       color: const Color(0xff757575),
       child: Container(
@@ -14,8 +19,8 @@ class AddTaskScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight:Radius.circular(20.0),
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
         ),
         child: Column(
@@ -26,30 +31,31 @@ class AddTaskScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 30.0,
-                color: Colors.lightBlueAccent
+                color: Colors.lightBlueAccent,
               ),
             ),
-             TextField(
+            TextField(
               autofocus: true,
               textAlign: TextAlign.center,
-              onChanged: (newText){
-                newTaskTitle = newText;
-                print(newText);
+              onChanged: (newText) {
+                setState(() {
+                  newTaskTitle = newText;
+                });
               },
             ),
             TextButton(
-                onPressed: (){
-                  print(newTaskTitle);
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor:  Colors.lightBlueAccent,
-                  textStyle: const TextStyle(
-                    color: Colors.white,
-                  ),
+              onPressed: () {
+                Provider.of<TaskData>(context, listen: false).addTask(newTaskTitle);
+                Navigator.pop(context);
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.lightBlueAccent,
+                textStyle: const TextStyle(
+                  color: Colors.white,
                 ),
-                child:
-                const Text('Add')
-            )
+              ),
+              child: const Text('Add'),
+            ),
           ],
         ),
       ),
